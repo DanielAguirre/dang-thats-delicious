@@ -1,0 +1,29 @@
+version: "2"
+
+volumes:
+  service_modules:
+  mongo-data:
+    driver: local
+
+services:
+  dang-thast-delicious:
+    container_name: dang_thast_delicious
+    build: .
+    command: sh -c 'npm rebuild node-sass && npm start'
+    ports: 
+      - 3000:7777
+    volumes:
+    - .:/app
+    - /node_modules
+    links:
+      - MongoDB
+    environment:
+      EXAMPLE_DATABASE: mongodb://MongoDB/dang-db
+  MongoDB:
+    image: mongo:3.6
+    volumes:
+      - mongo-data:/data/db
+
+
+
+
